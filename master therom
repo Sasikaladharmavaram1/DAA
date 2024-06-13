@@ -1,0 +1,15 @@
+#include <stdio.h>
+
+int masterTheorem(int a, int b, int k, int n) {
+    if (n == 0) {
+        return 1;
+    } else {
+        return a * masterTheorem(a, b, k, n / b) + k * n;
+    }
+}
+
+int main() {
+    int a = 2, b = 2, k = 2, n = 8;
+    printf("Result using Master Theorem: %d\n", masterTheorem(a, b, k, n));
+    return 0;
+}
