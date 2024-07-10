@@ -1,0 +1,77 @@
+#include <stdio.h>
+
+void swap(int* a, int* b) {
+  int temp = *a;
+  *a = *b;
+  *b = temp;
+}
+
+// Function to partition the array (quicksort helper)
+int partition(int arr[], int low, int high) {
+  int pivot = arr[high]; // Choose the last element as pivot
+  int i = (low - 1); // Index of smaller element
+
+  for (int j = low; j <= high - 1; j++) {
+    // If current element is smaller than the pivot
+    if (arr[j] < pivot) {
+      i++; // Increment index of smaller element
+      swap(&arr[i], &arr[j]);
+    }
+  }
+  swap(&arr[i + 1], &arr[high]); // Place pivot at the correct position
+  return (i + 1);
+}
+
+void quicksort(int arr[], int low, int high) {
+  if (low < high) {
+    // pi is partitioning index
+    int pi = partition(arr, low, high);
+
+    // Recursively sort elements before and after partition
+    quicksort(arr, low, pi - 1);
+    quicksort(arr, pi + 1, high);
+  }
+}
+
+int find_max(int* arr, int n) {
+  if (n == 0) {
+    printf("Error: List is empty.\n");
+    return -1; // Indicate error or use a different value for empty list
+  }
+  return arr[n - 1]; // Maximum element is at the last position of sorted array
+}
+
+int main() {
+  // Test Cases
+  int test_cases[][5] = {
+    {}, // Empty list
+    {5}, // Single element
+    {3, 3, 3, 3, 3} // All elements same
+  };
+  int num_cases = sizeof(test_cases) / sizeof(test_cases[0]);
+
+  for (int i = 0; i < num_cases; i++) {
+    int n = sizeof(test_cases[i]) / sizeof(test_cases[i][0]);
+    int* arr = (int*)malloc(n * sizeof(int)); // Allocate memory for the array
+    for (int j = 0; j < n; j++) {
+      arr[j] = test_cases[i][j];
+    }
+
+    quicksort(arr, 0, n - 1);
+    int max_element = find_max(arr, n);
+
+    printf("Test Case %d: Input: {", i + 1);
+    for (int j = 0; j < n; j++) {
+      printf("%d, ", arr[j]);
+    }
+    printf("}\n");
+
+    if (max_element != -1) {
+      printf("Maximum Element: %d\n", max_element);
+    }
+
+    free(arr); // Free memory allocated for the array
+  }
+
+  return 0;
+}
