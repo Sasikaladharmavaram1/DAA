@@ -1,0 +1,29 @@
+
+#include <stdio.h>
+
+int climb_stairs(int n) {
+  // Base cases: 1 step has 1 way, 2 steps have 2 ways
+  if (n == 1) {
+    return 1;
+  } else if (n == 2) {
+    return 2;
+  }
+
+  // Number of ways to reach the nth stair is the sum of
+  // ways to reach (n-1)th stair and (n-2)th stair
+  int result = climb_stairs(n - 1) + climb_stairs(n - 2);
+
+  return result;
+}
+
+int main() {
+  int n;
+
+  printf("Enter the number of stairs: ");
+  scanf("%d", &n);
+
+  int ways = climb_stairs(n);
+  printf("Number of ways to climb %d stairs: %d\n", n, ways);
+
+  return 0;
+}
