@@ -1,0 +1,59 @@
+
+#include <stdio.h>
+#include <stdlib.h>
+
+#define MAX_SIZE 10000 // Adjust this size based on expected element range
+
+int* find_unique(int* arr, int n) {
+  int hash[MAX_SIZE] = {0}; // Hash table to store encountered elements (adjust size if needed)
+  int unique_count = 0;
+
+  // Count unique elements using the hash table
+  for (int i = 0; i < n; i++) {
+    int index = arr[i] % MAX_SIZE; // Adjust modulo based on hash table size and element range
+    if (hash[index] == 0) {
+      unique_count++;
+      hash[index] = 1; // Mark element as seen
+    }
+  }
+
+  // Allocate memory for the new list with unique elements
+  int* unique_list = (int*)malloc(unique_count * sizeof(int));
+
+  // Fill the new list with unique elements
+  int j = 0;
+  for (int i = 0; i < n; i++) {
+    int index = arr[i] % MAX_SIZE;
+    if (hash[index] == 1) {
+      unique_list[j] = arr[i];
+      j++;
+      hash[index] = 2; // Mark element as added to the new list (avoid duplicates)
+    }
+  }
+
+  return unique_list;
+}
+
+int main() {
+  int arr[] = {1, 2, 3, 2, 1, 4, 5};
+  int n = sizeof(arr) / sizeof(arr[0]);
+
+  int* unique_list = find_unique(arr, n);
+  int unique_count = sizeof(unique_list) / sizeof(unique_list[0]);
+
+  printf("Original List: {");
+  for (int i = 0; i < n; i++) {
+    printf("%d, ", arr[i]);
+  }
+  printf("}\n");
+
+  printf("Unique List: {");
+  for (int i = 0; i < unique_count; i++) {
+    printf("%d, ", unique_list[i]);
+  }
+  printf("}\n");
+
+  free(unique_list); // Free memory allocated for the new list
+
+  return 0;
+}
