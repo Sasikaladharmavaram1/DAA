@@ -1,0 +1,25 @@
+#include <stdio.h>
+#include <string.h>
+int is_palindrome(const char* str) {
+  int len = strlen(str);
+  for (int i = 0; i < len / 2; i++) {
+    if (str[i] != str[len - 1 - i]) {
+      return 0; 
+    }
+  }
+  return 1;
+}
+int main() {
+  char words[][20] = {"abc", "car", "ada", "racecars", "cool"};
+  int size = sizeof(words) / sizeof(words[0]);
+
+  for (int i = 0; i < size; i++) {
+    int is_pal = is_palindrome(words[i]);
+    if (is_pal) {
+      printf("First palindrome: %s\n", words[i]);
+      return 0;
+    }
+  }
+  printf("No palindromes found\n");
+  return 0;
+}
