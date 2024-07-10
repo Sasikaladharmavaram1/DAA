@@ -1,0 +1,32 @@
+
+#include <stdio.h>
+int count_unique(int* nums, int n) {
+  int count = 0;
+  int hash[100001] = {0}; 
+  for (int i = 0; i < n; i++) {
+    int index = nums[i] + 50000;
+    if (hash[index] == 0) {
+      count++;
+      hash[index] = 1; 
+    }
+  }
+  return count;
+}
+int main() {
+  int test_cases[][5] = {
+    {1, 2, 3, 4, 5},
+    {7, 7, 7, 7, 7},
+    {-10, 2, 3, -4, 5}
+  };
+  int num_cases = sizeof(test_cases) / sizeof(test_cases[0]);
+  for (int i = 0; i < num_cases; i++) {
+    int n = sizeof(test_cases[i]) / sizeof(test_cases[i][0]);
+    int unique_count = count_unique(test_cases[i], n);
+    printf("Test Case %d: Input: {", i + 1);
+    for (int j = 0; j < n; j++) {
+      printf("%d, ", test_cases[i][j]);
+    }
+    printf("}, Expected Output: %d, Actual Output: %d\n", n, unique_count);
+  }
+  return 0;
+}
