@@ -1,0 +1,39 @@
+
+#include <stdio.h>
+
+int uniquePaths(int m, int n) {
+  // Create a table to store the number of paths for each cell.
+  int dp[m][n];
+
+  // Base case: There is only one path to reach the top-left corner.
+  dp[0][0] = 1;
+
+  // Fill the table using dynamic programming.
+  for (int i = 0; i < m; i++) {
+    for (int j = 0; j < n; j++) {
+      if (i > 0) {
+        dp[i][j] += dp[i - 1][j]; // Add paths coming from above.
+      }
+      if (j > 0) {
+        dp[i][j] += dp[i][j - 1]; // Add paths coming from the left.
+      }
+    }
+  }
+
+  // The number of unique paths to reach the bottom-right corner is stored in the last cell.
+  return dp[m - 1][n - 1];
+}
+
+int main() {
+  int m, n;
+
+  printf("Enter the number of rows (m): ");
+  scanf("%d", &m);
+  printf("Enter the number of columns (n): ");
+  scanf("%d", &n);
+
+  int numPaths = uniquePaths(m, n);
+  printf("Number of unique paths: %d\n", numPaths);
+
+  return 0;
+}
