@@ -1,0 +1,38 @@
+#include <stdio.h>
+#include <stdlib.h>
+int* find_counts(int* nums1, int n1, int* nums2, int n2) {
+  int* counts = (int*)malloc(2 * sizeof(int));  
+  counts[0] = 0; 
+  counts[1] = 0; 
+  int* hash = (int*)calloc(10001, sizeof(int));
+  for (int i = 0; i < n1; i++) {
+    hash[nums1[i]]++; 
+  }
+
+  for (int i = 0; i < n2; i++) {
+    counts[0] += hash[nums2[i]] > 0; 
+    hash[nums2[i]]--; 
+  }
+  free(hash); 
+  hash = (int*)calloc(10001, sizeof(int)); 
+  for (int i = 0; i < n2; i++) {
+    hash[nums2[i]]++;
+  }
+  for (int i = 0; i < n1; i++) {
+    counts[1] += hash[nums1[i]] > 0; 
+    hash[nums1[i]]--;
+  }
+  free(hash); 
+  return counts;
+}
+int main() {
+  int nums1[] = {1, 2, 2, 1};
+  int n1 = sizeof(nums1) / sizeof(nums1[0]);
+  int nums2[] = {2, 2};
+  int n2 = sizeof(nums2) / sizeof(nums2[0]);
+  int* counts = find_counts(nums1, n1, nums2, n2);
+  printf("answer1 (count for nums1 elements in nums2): %d\n", counts[0]);
+  printf("answer2 (count for nums2 elements in nums1): %d\n", counts[1]);
+  free(counts); 
+  return 0;
+}
